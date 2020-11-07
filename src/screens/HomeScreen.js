@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   value: {},
   stateDisabled: {
-    color: '#acacac',
+    color: '#919090',
   },
   stateEnabled: {
     color: '#6dbc28',
@@ -52,7 +52,8 @@ const states = {
   pending: 'Nova',
   viewed: 'Em Preparação',
   sent: 'Pronta para Entrega',
-  prepared: 'Pronta para Entrega',
+  ready: 'Pronta para Entrega',
+  assigned: 'A Recolher',
   bringing: 'A Entregar',
   delivered: 'Entregue',
 };
@@ -116,7 +117,7 @@ export default class HomeScreen extends React.Component {
             order.orderType === 'delivery' &&
             (order.status === 'viewed' ||
               order.status === 'sent' ||
-              order.status === 'prepared')
+              order.status === 'ready')
           ) {
             order.status === 'viewed' ? viewedOrders++ : preparedOrders++;
             orders.push(this.renderOrder(order));
@@ -134,7 +135,7 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.label}>Estado: </Text>
             <Text
               style={
-                order.status === 'prepared' || order.status === 'sent'
+                order.status === 'ready' || order.status === 'sent'
                   ? styles.stateEnabled
                   : styles.stateDisabled
               }>
@@ -228,15 +229,21 @@ export default class HomeScreen extends React.Component {
         <Card.Actions>
           {(order.status === 'viewed' ||
             order.status === 'sent' ||
-            order.status === 'prepared') && (
+            order.status === 'ready') && (
             <Button
               style={styles.button}
               mode={'contained'}
               onPress={() => this.accept(order)}
-              disabled={
-                !(order.status === 'prepared' || order.status === 'sent')
-              }>
+              disabled={!(order.status === 'ready' || order.status === 'sent')}>
               Aceitar
+            </Button>
+          )}
+          {order.status === 'assigned' && (
+            <Button
+              style={styles.button}
+              mode={'contained'}
+              onPress={() => this.bringing(order)}>
+              Recolhido
             </Button>
           )}
           {order.status === 'bringing' && (
@@ -244,7 +251,7 @@ export default class HomeScreen extends React.Component {
               style={styles.button}
               mode={'contained'}
               onPress={() => this.complete(order)}>
-              Completar
+              Entregue
             </Button>
           )}
         </Card.Actions>
@@ -253,6 +260,16 @@ export default class HomeScreen extends React.Component {
   }
 
   accept(order: Order) {
+    this.setState({
+      deliveringOrder: {...order, status: 'assigned'},
+    });
+    firebase
+      .database()
+      .ref('/order/' + order.key)
+      .update({status: 'assigned'});
+  }
+
+  bringing(order: Order) {
     this.setState({
       deliveringOrder: {...order, status: 'bringing'},
     });
@@ -269,7 +286,7 @@ export default class HomeScreen extends React.Component {
     firebase
       .database()
       .ref('/order/' + order.key)
-      .update({status: 'delivered'});
+      .update({status: 'completed'});
   }
 
   render() {
