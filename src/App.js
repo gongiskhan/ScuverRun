@@ -1,10 +1,6 @@
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Provider as PaperProvider, Text} from 'react-native-paper';
-import {Title, DefaultTheme} from 'react-native-paper';
-import {Appbar} from 'react-native-paper';
+import React from 'react';
+import {StatusBar, StyleSheet} from 'react-native';
+import {Appbar, DefaultTheme, Provider as PaperProvider, Title} from 'react-native-paper';
 import NavigationContainer from '@react-navigation/native/src/NavigationContainer';
 import LoginScreen from './screens/LoginScreen';
 import {createStackNavigator} from '@react-navigation/stack';

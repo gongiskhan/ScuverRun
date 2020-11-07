@@ -13,8 +13,8 @@ import * as firebase from 'firebase';
 import {AsyncStorage} from 'react-native';
 
 const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('goncalo.p.gomes@hotmail.com');
+  const [password, setPassword] = useState('tmp12345');
   const [snackVisible, setSnackVisible] = useState(false);
   const [snackText, setSnackText] = useState(false);
 
