@@ -1,6 +1,7 @@
 import React from 'react';
 import {Paragraph, Button, Card, Title, Text} from 'react-native-paper';
-import {AsyncStorage, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as firebase from 'firebase';
 import {Order} from '../model/order';
 import {showLocation} from 'react-native-map-link';
@@ -59,8 +60,8 @@ const states = {
 };
 
 export default class HomeScreen extends React.Component {
-  constructor({navigation}) {
-    super({navigation});
+  constructor(props) {
+    super(props);
     this.state = {
       orders: [],
       user: null,

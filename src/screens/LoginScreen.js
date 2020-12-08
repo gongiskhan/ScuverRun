@@ -10,7 +10,7 @@ import {
   Text,
 } from 'react-native-paper';
 import * as firebase from 'firebase';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('goncalo.p.gomes@hotmail.com');
@@ -78,7 +78,7 @@ const LoginScreen = ({navigation}) => {
           <Button
             onPress={() =>
               Linking.openURL(
-                'mailto:scuverpt@gmail.com?subject=Candidatura Estafeta',
+                'mailto:scuverpt@gmail.com?subject=Inscricao Estafeta',
               )
             }>
             scuverpt@gmail.com
